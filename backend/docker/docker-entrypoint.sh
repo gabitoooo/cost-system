@@ -29,10 +29,10 @@ set_env "DB_DATABASE"   "${DB_DATABASE}"
 set_env "DB_USERNAME"   "${DB_USERNAME}"
 set_env "DB_PASSWORD"   "${DB_PASSWORD}"
 
-# Generar APP_KEY si está vacía
-if php /var/www/html/artisan env --only=APP_KEY 2>/dev/null | grep -q "APP_KEY=$\|APP_KEY=\"\""; then
+# Generar APP_KEY si está vacía o ausente
+if ! grep -qE "^APP_KEY=.+" /var/www/html/.env; then
     echo "==> Generando APP_KEY..."
-    php /var/www/html/artisan key:generate
+    php /var/www/html/artisan key:generate --force
 fi
 
 # Ejecutar migraciones

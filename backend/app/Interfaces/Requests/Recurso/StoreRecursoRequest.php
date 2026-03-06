@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Interfaces\Requests\Recurso;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class StoreRecursoRequest extends FormRequest
+{
+    public function rules(): array
+    {
+        return [
+            'grupo_recursos_id' => ['required', 'integer'],
+            'nombre'            => ['required', 'string', 'max:255'],
+            'tipo'              => ['required', Rule::in(['humano', 'maquina', 'infraestructura'])],
+            'costo_mensual'     => ['required', 'numeric', 'min:0'],
+        ];
+    }
+}

@@ -1,9 +1,11 @@
 <?php
 
-use App\Interfaces\Controllers\AsignacionCostoCompartidoController;
-use App\Interfaces\Controllers\AuthController;
+use App\Infrastructure\Persistence\Models\Departamento;
+use App\Infrastructure\Persistence\Models\User;
 use App\Interfaces\Controllers\ActividadController;
 use App\Interfaces\Controllers\ActividadInductorTiempoController;
+use App\Interfaces\Controllers\AsignacionCostoCompartidoController;
+use App\Interfaces\Controllers\AuthController;
 use App\Interfaces\Controllers\DepartamentoController;
 use App\Interfaces\Controllers\GrupoRecursoController;
 use App\Interfaces\Controllers\InductorTiempoController;
@@ -21,8 +23,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-
-    // ── TDABC: Departamentos 
+    // TDABC: Departamentos 
     Route::get('departamentos', [DepartamentoController::class, 'index']);
     Route::post('departamentos', [DepartamentoController::class, 'store']);
     Route::get('departamentos/{id}', [DepartamentoController::class, 'show']);
@@ -35,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Recursos compartidos de un departamento
     Route::get('departamentos/{departamentoId}/recursos-compartidos', [RecursoCompartidoController::class, 'index']);
 
-    // ── TDABC: Grupos de Recursos 
+    // TDABC: Grupos de Recursos 
     Route::post('grupos-recursos', [GrupoRecursoController::class, 'store']);
     Route::get('grupos-recursos/{id}', [GrupoRecursoController::class, 'show']);
     Route::put('grupos-recursos/{id}', [GrupoRecursoController::class, 'update']);
@@ -47,12 +48,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Actividades de un grupo
     Route::get('grupos-recursos/{grupoRecursoId}/actividades', [ActividadController::class, 'index']);
 
-    // ── TDABC: Recursos 
+    // TDABC: Recursos 
     Route::post('recursos', [RecursoController::class, 'store']);
     Route::put('recursos/{id}', [RecursoController::class, 'update']);
     Route::delete('recursos/{id}', [RecursoController::class, 'destroy']);
 
-    // ── TDABC: Recursos Compartidos 
+    // TDABC: Recursos Compartidos 
     Route::post('recursos-compartidos', [RecursoCompartidoController::class, 'store']);
     Route::put('recursos-compartidos/{id}', [RecursoCompartidoController::class, 'update']);
     Route::delete('recursos-compartidos/{id}', [RecursoCompartidoController::class, 'destroy']);
@@ -61,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('recursos-compartidos/{recursoCompartidoId}/asignaciones', [AsignacionCostoCompartidoController::class, 'index']);
     Route::put('recursos-compartidos/{recursoCompartidoId}/asignaciones', [AsignacionCostoCompartidoController::class, 'sync']);
 
-    // ── TDABC: Actividades 
+    // TDABC: Actividades 
     Route::post('actividades', [ActividadController::class, 'store']);
     Route::get('actividades/{id}', [ActividadController::class, 'show']);
     Route::put('actividades/{id}', [ActividadController::class, 'update']);
@@ -73,10 +74,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('actividades/{actividadId}/inductores/{inductorId}', [ActividadInductorTiempoController::class, 'update']);
     Route::delete('actividades/{actividadId}/inductores/{inductorId}', [ActividadInductorTiempoController::class, 'destroy']);
 
-    // ── TDABC: Inductores de Tiempo (catálogo global) 
+    // TDABC: Inductores de Tiempo (catálogo global) 
     Route::get('inductores-tiempo', [InductorTiempoController::class, 'index']);
     Route::post('inductores-tiempo', [InductorTiempoController::class, 'store']);
     Route::get('inductores-tiempo/{id}', [InductorTiempoController::class, 'show']);
     Route::put('inductores-tiempo/{id}', [InductorTiempoController::class, 'update']);
     Route::delete('inductores-tiempo/{id}', [InductorTiempoController::class, 'destroy']);
+});
+
+Route::get('p',function(){
+    return Departamento::all();
 });

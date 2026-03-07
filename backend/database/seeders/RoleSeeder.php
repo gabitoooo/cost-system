@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($roles as $rol) {
-            Role::firstOrCreate(['name' => $rol, 'guard_name' => 'api']);
+            Role::firstOrCreate(['name' => $rol, 'guard_name' => 'web']);
         }
 
         // Usuario admin de prueba

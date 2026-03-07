@@ -39,6 +39,16 @@ fi
 echo "==> Ejecutando migraciones..."
 php /var/www/html/artisan migrate --force
 
+# Ejecutar seeders solo si la BD está vacía (sin usuarios)
+echo "==> Verificando seeders..."
+USER_COUNT=$(php /var/www/html/artisan tinker --execute="echo \App\Infrastructure\Persistence\Models\User::count();" 2>/dev/null | tail -1)
+if [ "$USER_COUNT" = "0" ]; then
+    echo "==> Ejecutando seeders..."
+    php /var/www/html/artisan db:seed --force
+else
+    echo "==> Seeders omitidos (BD ya tiene datos)."
+fi
+
 # Permisos de storage
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache

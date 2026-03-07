@@ -7,6 +7,7 @@ use App\Application\AsignacionCostoCompartido\Dtos\AsignacionItemDto;
 use App\Application\AsignacionCostoCompartido\Dtos\AsignarCostoCompartidoDto;
 use App\Application\AsignacionCostoCompartido\ListarAsignacionesUseCase;
 use App\Domain\AsignacionCostoCompartido\Exceptions\PorcentajeInvalidoException;
+use App\Domain\GrupoRecurso\Exceptions\GrupoRecursoNoEncontradoException;
 use App\Domain\RecursoCompartido\Exceptions\RecursoCompartidoNoEncontradoException;
 use App\Interfaces\Requests\AsignacionCostoCompartido\SyncAsignacionesRequest;
 use App\Interfaces\Resources\AsignacionCostoCompartido\AsignacionCostoCompartidoResource;
@@ -50,10 +51,12 @@ class AsignacionCostoCompartidoController extends Controller
             return response()->json([
                 'data' => array_map(fn($a) => (new AsignacionCostoCompartidoResource($a))->toArray(), $items),
             ]);
-        } catch (RecursoCompartidoNoEncontradoException $e) {
+        } catch (RecursoCompartidoNoEncontradoException | GrupoRecursoNoEncontradoException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         } catch (PorcentajeInvalidoException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
+        }catch (\Exception $e) {
+            return response()->json(['message' => 'Error inesperado'], 500);
         }
     }
 }

@@ -22,4 +22,15 @@ class GrupoRecurso
     {
         return ($costoRecursos + $costoCompartido) / $this->capacidadPracticaMinutos;
     }
+
+    public function setTasa(float $tasa): self
+    {
+        return new self(
+            id: $this->id,
+            departamentoId: $this->departamentoId,
+            nombre: $this->nombre,
+            capacidadPracticaMinutos: $this->capacidadPracticaMinutos,
+            tasaCostoPorMinuto: $tasa,
+        );
+    }
 }

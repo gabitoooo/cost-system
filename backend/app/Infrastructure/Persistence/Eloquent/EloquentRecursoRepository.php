@@ -43,6 +43,11 @@ class EloquentRecursoRepository implements RecursoRepository
         RecursoModel::findOrFail($id)->delete();
     }
 
+    public function sumCostoByGrupo(int $grupoId): float
+    {
+        return (float) RecursoModel::where('grupo_recursos_id', $grupoId)->sum('costo_mensual');
+    }
+
     private function toEntity(RecursoModel $model): Recurso
     {
         return new Recurso(

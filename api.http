@@ -1,0 +1,284 @@
+@baseUrl = http://localhost:8000/api
+@token = 2|tSKlDBNKSZNcnsCiuZnVN3f0v3AKwUmu8FuWkQ2D1cc32866
+
+# ============================================================
+# AUTH
+# ============================================================
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@test.com",
+  "password": "password"
+}
+
+### Me (usuario autenticado)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{token}}
+
+# ============================================================
+# DEPARTAMENTOS
+# ============================================================
+
+### Listar departamentos
+GET {{baseUrl}}/departamentos
+Authorization: Bearer {{token}}
+
+### Crear departamento
+POST {{baseUrl}}/departamentos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Producción"
+}
+
+### Mostrar departamento
+GET {{baseUrl}}/departamentos/1
+Authorization: Bearer {{token}}
+
+### Actualizar departamento
+PUT {{baseUrl}}/departamentos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Produccion Actualizado"
+}
+
+### Eliminar departamento
+DELETE {{baseUrl}}/departamentos/1
+Authorization: Bearer {{token}}
+
+### Listar grupos de recursos de un departamento
+GET {{baseUrl}}/departamentos/1/grupos-recursos
+Authorization: Bearer {{token}}
+
+### Listar recursos compartidos de un departamento
+GET {{baseUrl}}/departamentos/1/recursos-compartidos
+Authorization: Bearer {{token}}
+
+# ============================================================
+# GRUPOS DE RECURSOS
+# ============================================================
+
+### Crear grupo de recursos
+POST {{baseUrl}}/grupos-recursos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "departamento_id": 1,
+  "nombre": "Grupo Maquinaria",
+  "capacidad_practica_minutos": 10000
+}
+
+### Mostrar grupo de recursos
+GET {{baseUrl}}/grupos-recursos/1
+Authorization: Bearer {{token}}
+
+### Actualizar grupo de recursos
+PUT {{baseUrl}}/grupos-recursos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Grupo Maquinaria Actualizado",
+  "capacidad_practica_minutos": 12000
+}
+
+### Eliminar grupo de recursos
+DELETE {{baseUrl}}/grupos-recursos/1
+Authorization: Bearer {{token}}
+
+### Listar recursos de un grupo
+GET {{baseUrl}}/grupos-recursos/1/recursos
+Authorization: Bearer {{token}}
+
+### Listar actividades de un grupo
+GET {{baseUrl}}/grupos-recursos/1/actividades
+Authorization: Bearer {{token}}
+
+# ============================================================
+# RECURSOS
+# ============================================================
+
+### Crear recurso
+POST {{baseUrl}}/recursos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "grupo_recursos_id": 1,
+  "nombre": "Operario A",
+  "tipo": "humano",
+  "costo_mensual": 1500000
+}
+
+### Actualizar recurso
+PUT {{baseUrl}}/recursos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Operario A Actualizado",
+  "tipo": "humano",
+  "costo_mensual": 1800000
+}
+
+### Eliminar recurso
+DELETE {{baseUrl}}/recursos/1
+Authorization: Bearer {{token}}
+
+# ============================================================
+# RECURSOS COMPARTIDOS
+# ============================================================
+
+### Crear recurso compartido
+POST {{baseUrl}}/recursos-compartidos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "departamento_id": 1,
+  "nombre": "Electricidad",
+  "tipo": "servicio",
+  "costo_mensual": 500000
+}
+
+### Actualizar recurso compartido
+PUT {{baseUrl}}/recursos-compartidos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Electricidad Actualizado",
+  "tipo": "servicio",
+  "costo_mensual": 600000
+}
+
+### Eliminar recurso compartido
+DELETE {{baseUrl}}/recursos-compartidos/1
+Authorization: Bearer {{token}}
+
+### Listar asignaciones de un recurso compartido
+GET {{baseUrl}}/recursos-compartidos/1/asignaciones
+Authorization: Bearer {{token}}
+
+### Sincronizar asignaciones de un recurso compartido
+PUT {{baseUrl}}/recursos-compartidos/1/asignaciones
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "asignaciones": [
+    { "grupo_recursos_id": 1, "porcentaje": 60 },
+    { "grupo_recursos_id": 2, "porcentaje": 40 }
+  ]
+}
+
+# ============================================================
+# ACTIVIDADES
+# ============================================================
+
+### Crear actividad
+POST {{baseUrl}}/actividades
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "grupo_recursos_id": 1,
+  "nombre": "Ensamblaje de piezas",
+  "tiempo_base_minutos": 30
+}
+
+### Mostrar actividad
+GET {{baseUrl}}/actividades/1
+Authorization: Bearer {{token}}
+
+### Actualizar actividad
+PUT {{baseUrl}}/actividades/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Ensamblaje de piezas Actualizado",
+  "tiempo_base_minutos": 45
+}
+
+### Eliminar actividad
+DELETE {{baseUrl}}/actividades/1
+Authorization: Bearer {{token}}
+
+### Listar inductores de una actividad
+GET {{baseUrl}}/actividades/1/inductores
+Authorization: Bearer {{token}}
+
+### Asociar inductor a actividad
+POST {{baseUrl}}/actividades/1/inductores
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "inductor_tiempo_id": 1,
+  "beta_minutos": 5,
+  "tamano_lote": 10
+}
+
+### Actualizar inductor de actividad
+PUT {{baseUrl}}/actividades/1/inductores/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "beta_minutos": 8,
+  "tamano_lote": 20
+}
+
+### Eliminar inductor de actividad
+DELETE {{baseUrl}}/actividades/1/inductores/1
+Authorization: Bearer {{token}}
+
+# ============================================================
+# INDUCTORES DE TIEMPO (catálogo global)
+# ============================================================
+
+### Listar inductores de tiempo
+GET {{baseUrl}}/inductores-tiempo
+Authorization: Bearer {{token}}
+
+### Crear inductor de tiempo
+POST {{baseUrl}}/inductores-tiempo
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Número de pedidos",
+  "descripcion": "Cantidad de pedidos procesados en el período",
+  "tipo_calculo": "conteo"
+}
+
+### Mostrar inductor de tiempo
+GET {{baseUrl}}/inductores-tiempo/1
+Authorization: Bearer {{token}}
+
+### Actualizar inductor de tiempo
+PUT {{baseUrl}}/inductores-tiempo/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Número de pedidos Actualizado",
+  "descripcion": "Descripción actualizada",
+  "tipo_calculo": "conteo"
+}
+
+### Eliminar inductor de tiempo
+DELETE {{baseUrl}}/inductores-tiempo/1
+Authorization: Bearer {{token}}

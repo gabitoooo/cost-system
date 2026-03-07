@@ -5,7 +5,6 @@ namespace App\Infrastructure\Persistence\Eloquent;
 use App\Domain\AsignacionCostoCompartido\AsignacionCostoCompartido;
 use App\Domain\AsignacionCostoCompartido\AsignacionCostoCompartidoRepository;
 use App\Infrastructure\Persistence\Models\AsignacionCostoCompartido as AsignacionModel;
-use Illuminate\Support\Facades\DB;
 
 class EloquentAsignacionCostoCompartidoRepository implements AsignacionCostoCompartidoRepository
 {
@@ -17,24 +16,28 @@ class EloquentAsignacionCostoCompartidoRepository implements AsignacionCostoComp
             ->all();
     }
 
-    public function syncAsignaciones(int $recursoCompartidoId, array $asignaciones): array
+    public function save(AsignacionCostoCompartido $asignacion): AsignacionCostoCompartido
     {
-        return DB::transaction(function () use ($recursoCompartidoId, $asignaciones) {
-            AsignacionModel::where('recurso_compartido_id', $recursoCompartidoId)->delete();
+        $model = new AsignacionModel();
+        $model->recurso_compartido_id = $asignacion->recursoCompartidoId;
+        $model->grupo_recursos_id     = $asignacion->grupoRecursosId;
+        $model->porcentaje            = $asignacion->porcentaje;
+        $model->save();
 
-            $guardadas = [];
-            foreach ($asignaciones as $asignacion) {
-                $model = new AsignacionModel();
-                $model->recurso_compartido_id = $recursoCompartidoId;
-                $model->grupo_recursos_id     = $asignacion->grupoRecursosId;
-                $model->porcentaje            = $asignacion->porcentaje;
-                $model->save();
+        return $this->toEntity($model);
+    }
 
-                $guardadas[] = $this->toEntity($model);
-            }
+    public function deleteByRecursoCompartido(int $recursoCompartidoId): void
+    {
+        AsignacionModel::where('recurso_compartido_id', $recursoCompartidoId)->delete();
+    }
 
-            return $guardadas;
-        });
+    public function sumCostoCompartidoByGrupo(int $grupoId): float
+    {
+        return (float) AsignacionModel::where('asignaciones_costo_compartido.grupo_recursos_id', $grupoId)
+            ->join('recursos_compartidos', 'recursos_compartidos.id', '=', 'asignaciones_costo_compartido.recurso_compartido_id')
+            ->selectRaw('SUM(recursos_compartidos.costo_mensual * asignaciones_costo_compartido.porcentaje / 100) as total')
+            ->value('total') ?? 0.0;
     }
 
     private function toEntity(AsignacionModel $model): AsignacionCostoCompartido

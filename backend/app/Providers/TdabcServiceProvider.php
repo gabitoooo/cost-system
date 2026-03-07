@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Application\Contracts\TransactionManager;
 use App\Domain\Actividad\ActividadRepository;
 use App\Domain\ActividadInductorTiempo\ActividadInductorTiempoRepository;
 use App\Domain\AsignacionCostoCompartido\AsignacionCostoCompartidoRepository;
@@ -18,12 +19,14 @@ use App\Infrastructure\Persistence\Eloquent\EloquentGrupoRecursoRepository;
 use App\Infrastructure\Persistence\Eloquent\EloquentInductorTiempoRepository;
 use App\Infrastructure\Persistence\Eloquent\EloquentRecursoCompartidoRepository;
 use App\Infrastructure\Persistence\Eloquent\EloquentRecursoRepository;
+use App\Infrastructure\Services\EloquentTransactionManager;
 use Illuminate\Support\ServiceProvider;
 
 class TdabcServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(TransactionManager::class, EloquentTransactionManager::class);
         $this->app->bind(DepartamentoRepository::class, EloquentDepartamentoRepository::class);
         $this->app->bind(GrupoRecursoRepository::class, EloquentGrupoRecursoRepository::class);
         $this->app->bind(RecursoRepository::class, EloquentRecursoRepository::class);

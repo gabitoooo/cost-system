@@ -11,4 +11,6 @@ interface RecursoRepository
     public function save(Recurso $recurso): Recurso;
 
     public function delete(int $id): void;
+
+    public function sumCostoByGrupo(int $grupoId): float;
 }

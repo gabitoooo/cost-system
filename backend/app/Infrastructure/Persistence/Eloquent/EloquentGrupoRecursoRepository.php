@@ -33,38 +33,13 @@ class EloquentGrupoRecursoRepository implements GrupoRecursoRepository
         $model->nombre                     = $grupo->nombre;
         $model->capacidad_practica_minutos = $grupo->capacidadPracticaMinutos;
         $model->tasa_costo_por_minuto      = $grupo->tasaCostoPorMinuto;
-        $model->save();
-
+        $model->save();  
         return $this->toEntity($model);
     }
 
     public function delete(int $id): void
     {
         GrupoRecursoModel::findOrFail($id)->delete();
-    }
-
-    public function recalcularCcr(int $grupoId): GrupoRecurso
-    {
-        $modelo = GrupoRecursoModel::with([
-            'recursos',
-            'asignacionesCostoCompartido.recursoCompartido',
-        ])->findOrFail($grupoId);
-
-        // Infrastructure agrega los datos desde la BD
-        $costoRecursos = (float) $modelo->recursos->sum('costo_mensual');
-
-        $costoCompartido = (float) $modelo->asignacionesCostoCompartido->sum(
-            fn($a) => $a->recursoCompartido->costo_mensual * ($a->porcentaje / 100)
-        );
-
-        // La fórmula CCR vive en el dominio
-        $entidad = $this->toEntity($modelo);
-        $tasa    = $entidad->calcularCcr($costoRecursos, $costoCompartido);
-
-        $modelo->tasa_costo_por_minuto = $tasa;
-        $modelo->save();
-
-        return $this->toEntity($modelo);
     }
 
     private function toEntity(GrupoRecursoModel $model): GrupoRecurso

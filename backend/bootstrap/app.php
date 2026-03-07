@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -27,6 +28,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*')) {
                 if ($e instanceof AuthenticationException) {
                     return response()->json(['message' => 'Unauthenticated.'], 401);
+                }
+                if ($e instanceof ValidationException) {
+                    return response()->json([                       
+                        'errors'  => $e->errors(),
+                    ], 422);
                 }
                 Log::error('Ocurrio un error' . $e->getMessage(), ['exception' => $e]);
                 return response()->json(['message' => $e->getMessage()], $e->getCode() ?: 500);

@@ -9,6 +9,7 @@ use App\Application\InductorTiempo\Dtos\CrearInductorTiempoDto;
 use App\Application\InductorTiempo\EliminarInductorTiempoUseCase;
 use App\Application\InductorTiempo\ListarInductoresTiempoUseCase;
 use App\Application\InductorTiempo\MostrarInductorTiempoUseCase;
+use App\Domain\InductorTiempo\Enums\InductorTiempoTipoCalculoEnum;
 use App\Domain\InductorTiempo\Exceptions\InductorTiempoNoEncontradoException;
 use App\Interfaces\Requests\InductorTiempo\StoreInductorTiempoRequest;
 use App\Interfaces\Requests\InductorTiempo\UpdateInductorTiempoRequest;
@@ -46,12 +47,12 @@ class InductorTiempoController extends Controller
 
     public function store(StoreInductorTiempoRequest $request): JsonResponse
     {
+
         $dto = $this->crear->ejecutar(new CrearInductorTiempoDto(
             nombre: $request->validated('nombre'),
             descripcion: $request->validated('descripcion'),
-            tipoCalculo: $request->validated('tipo_calculo'),
+            tipoCalculo: InductorTiempoTipoCalculoEnum::from($request->validated('tipo_calculo')),
         ));
-
         return (new InductorTiempoResource($dto))->toResponse(201);
     }
 
@@ -62,7 +63,7 @@ class InductorTiempoController extends Controller
                 id: $id,
                 nombre: $request->validated('nombre'),
                 descripcion: $request->validated('descripcion'),
-                tipoCalculo: $request->validated('tipo_calculo'),
+                tipoCalculo: InductorTiempoTipoCalculoEnum::from($request->validated('tipo_calculo')),
             ));
             return (new InductorTiempoResource($dto))->toResponse();
         } catch (InductorTiempoNoEncontradoException $e) {

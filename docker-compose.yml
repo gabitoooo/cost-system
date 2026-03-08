@@ -50,5 +50,21 @@ services:
       timeout: 5s
       retries: 10
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cost_system_frontend
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT_FRONTEND:-5173}:5173"
+    environment:
+      API_BASE_URL: ${API_BASE_URL}
+    volumes:
+      - ./frontend:/app
+      # - /app/node_modules  # comentar para compartir node_modules con el host (solo WSL/Linux)
+    stdin_open: true
+    tty: true
+
 volumes:
   pg_data:

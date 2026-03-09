@@ -9,23 +9,32 @@ class DetalleInstantaneaCosto extends Model
 {
     protected $table = 'detalles_instantanea_costo';
 
-    // Solo tiene created_at, sin updated_at
     const UPDATED_AT = null;
 
     protected $fillable = [
-        'precio_producto_id',
-        'snapshot_tdabc',
+        'instantanea_id',
+        'actividad_id',
+        'tiempo_consumido_min',
+        'tasa_costo_por_minuto',
+        'costo_actividad',
     ];
 
     protected function casts(): array
     {
         return [
-            'snapshot_tdabc' => 'array',
+            'tiempo_consumido_min'  => 'decimal:4',
+            'tasa_costo_por_minuto' => 'decimal:4',
+            'costo_actividad'       => 'decimal:4',
         ];
     }
 
-    public function precioProducto(): BelongsTo
+    public function instantanea(): BelongsTo
     {
-        return $this->belongsTo(PrecioProducto::class, 'precio_producto_id');
+        return $this->belongsTo(InstantaneaCostoProducto::class, 'instantanea_id');
+    }
+
+    public function actividad(): BelongsTo
+    {
+        return $this->belongsTo(Actividad::class, 'actividad_id');
     }
 }

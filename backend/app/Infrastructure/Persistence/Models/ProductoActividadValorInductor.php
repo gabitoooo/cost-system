@@ -13,12 +13,16 @@ class ProductoActividadValorInductor extends Model
         'producto_actividad_id',
         'inductor_tiempo_id',
         'valor_x',
+        'beta_minutos',
+        'tamano_lote',
     ];
 
     protected function casts(): array
     {
         return [
-            'valor_x' => 'decimal:2',
+            'valor_x'      => 'decimal:2',
+            'beta_minutos' => 'decimal:4',
+            'tamano_lote'  => 'decimal:2',
         ];
     }
 

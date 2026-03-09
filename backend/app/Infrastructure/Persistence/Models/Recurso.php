@@ -4,13 +4,13 @@ namespace App\Infrastructure\Persistence\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recurso extends Model
 {
     protected $table = 'recursos';
 
-    protected $fillable = [
-        'grupo_recursos_id',
+    protected $fillable = [     
         'nombre',
         'tipo',
         'costo_mensual',
@@ -23,8 +23,8 @@ class Recurso extends Model
         ];
     }
 
-    public function grupoRecurso(): BelongsTo
+    public function asignacionRecursoGrupo(): HasMany
     {
-        return $this->belongsTo(GrupoRecurso::class, 'grupo_recursos_id');
+        return $this->hasMany(AsignacionRecursoGrupo::class, 'recurso_id');
     }
 }

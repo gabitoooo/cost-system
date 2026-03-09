@@ -6,20 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('recursos_compartidos', function (Blueprint $table) {
+        Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('departamento_id')->constrained('departamentos');
             $table->string('nombre');
-            $table->string('tipo', 50);
-            $table->decimal('costo_mensual', 12, 2);
+            $table->string('apellidos');
+            $table->string('telefonos')->nullable();
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('recursos_compartidos');
+        Schema::dropIfExists('clientes');
     }
 };

@@ -9,8 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recursos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('grupo_recursos_id')->constrained('grupos_recursos');
+            $table->id();            
             $table->string('nombre');
             $table->string('tipo', 50);
             $table->decimal('costo_mensual', 12, 2);

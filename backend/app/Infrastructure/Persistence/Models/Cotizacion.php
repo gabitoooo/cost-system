@@ -14,7 +14,7 @@ class Cotizacion extends Model
     protected $fillable = [
         'usuario_id',
         'lista_precio_id',
-        'nombre_cliente',
+        'cliente_id',
         'estado',
         'es_pedido_directo',
         'costo_total',
@@ -49,5 +49,9 @@ class Cotizacion extends Model
     public function pedido(): HasOne
     {
         return $this->hasOne(Pedido::class, 'cotizacion_id');
+    }
+    public function cliente(): BelongsTo
+    {
+        return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 }

@@ -8,14 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('asignaciones_costo_compartido', function (Blueprint $table) {
+        Schema::create('asignaciones_recursos_grupos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recurso_compartido_id')->constrained('recursos_compartidos');
+            $table->foreignId('recurso_id')->constrained('recursos');
             $table->foreignId('grupo_recursos_id')->constrained('grupos_recursos');
             $table->decimal('porcentaje', 5, 2);
             $table->timestamps();
-
-            $table->unique(['recurso_compartido_id', 'grupo_recursos_id']);
+            $table->unique(['recurso_id', 'grupo_recursos_id']);
         });
     }
 

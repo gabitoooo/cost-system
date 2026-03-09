@@ -19,24 +19,18 @@ class CrearRecursoUseCase
     /** @throws GrupoRecursoNoEncontradoException */
     public function ejecutar(CrearRecursoDto $dto): RecursoResultDto
     {
-        $this->grupoRepository->findById($dto->grupoRecursosId)
-            ?? throw new GrupoRecursoNoEncontradoException($dto->grupoRecursosId);
-
+       
         $recurso = new Recurso(
-            id: 0,
-            grupoRecursosId: $dto->grupoRecursosId,
+            id: 0,          
             nombre: $dto->nombre,
             tipo: $dto->tipo,
             costoMensual: $dto->costoMensual,
         );
 
-        $guardado = $this->repository->save($recurso);
-
-        $this->grupoRepository->recalcularCcr($dto->grupoRecursosId);
+        $guardado = $this->repository->save($recurso);        
 
         return new RecursoResultDto(
-            id: $guardado->id,
-            grupoRecursosId: $guardado->grupoRecursosId,
+            id: $guardado->id,         
             nombre: $guardado->nombre,
             tipo: $guardado->tipo,
             costoMensual: $guardado->costoMensual,

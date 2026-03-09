@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Models;
 
+use App\Domain\InductorTiempo\Enums\InductorTiempoTipoCalculoEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -14,6 +15,13 @@ class InductorTiempo extends Model
         'descripcion',
         'tipo_calculo',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'tipo_calculo' => InductorTiempoTipoCalculoEnum::class,
+        ];
+    }
 
     public function actividadInductores(): HasMany
     {

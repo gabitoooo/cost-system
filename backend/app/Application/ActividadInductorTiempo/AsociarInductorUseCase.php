@@ -9,7 +9,6 @@ use App\Domain\Actividad\Exceptions\ActividadNoEncontradaException;
 use App\Domain\ActividadInductorTiempo\ActividadInductorTiempo;
 use App\Domain\ActividadInductorTiempo\ActividadInductorTiempoRepository;
 use App\Domain\ActividadInductorTiempo\Exceptions\InductorYaAsociadoException;
-use App\Domain\ActividadInductorTiempo\Exceptions\TamanoLoteRequeridoException;
 use App\Domain\InductorTiempo\Exceptions\InductorTiempoNoEncontradoException;
 use App\Domain\InductorTiempo\InductorTiempoRepository;
 
@@ -25,14 +24,13 @@ class AsociarInductorUseCase
      * @throws ActividadNoEncontradaException
      * @throws InductorTiempoNoEncontradoException
      * @throws InductorYaAsociadoException
-     * @throws TamanoLoteRequeridoException
      */
     public function ejecutar(AsociarInductorDto $dto): ActividadInductorTiempoResultDto
     {
         $this->actividadRepository->findById($dto->actividadId)
             ?? throw new ActividadNoEncontradaException($dto->actividadId);
 
-        $inductor = $this->inductorRepository->findById($dto->inductorTiempoId)
+        $this->inductorRepository->findById($dto->inductorTiempoId)
             ?? throw new InductorTiempoNoEncontradoException($dto->inductorTiempoId);
 
         $existente = $this->repository->findByActividadAndInductor($dto->actividadId, $dto->inductorTiempoId);
@@ -40,13 +38,9 @@ class AsociarInductorUseCase
             throw new InductorYaAsociadoException($dto->actividadId, $dto->inductorTiempoId);
         }
 
-        // La regla tamano_lote requerido vive en el dominio (factory method)
         $ait = ActividadInductorTiempo::crear(
             actividadId: $dto->actividadId,
             inductorTiempoId: $dto->inductorTiempoId,
-            tipoCalculo: $inductor->tipoCalculo,
-            betaMinutos: $dto->betaMinutos,
-            tamanoLote: $dto->tamanoLote,
         );
 
         $guardado = $this->repository->save($ait);
@@ -55,8 +49,6 @@ class AsociarInductorUseCase
             id: $guardado->id,
             actividadId: $guardado->actividadId,
             inductorTiempoId: $guardado->inductorTiempoId,
-            betaMinutos: $guardado->betaMinutos,
-            tamanoLote: $guardado->tamanoLote,
         );
     }
 }

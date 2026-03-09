@@ -31,10 +31,8 @@ class EloquentActividadInductorTiempoRepository implements ActividadInductorTiem
             ? new ActividadInductorTiempoModel()
             : ActividadInductorTiempoModel::findOrFail($ait->id);
 
-        $model->actividad_id      = $ait->actividadId;
+        $model->actividad_id       = $ait->actividadId;
         $model->inductor_tiempo_id = $ait->inductorTiempoId;
-        $model->beta_minutos      = $ait->betaMinutos;
-        $model->tamano_lote       = $ait->tamanoLote;
         $model->save();
 
         return $this->toEntity($model);
@@ -53,8 +51,6 @@ class EloquentActividadInductorTiempoRepository implements ActividadInductorTiem
             id: $model->id,
             actividadId: $model->actividad_id,
             inductorTiempoId: $model->inductor_tiempo_id,
-            betaMinutos: (float) $model->beta_minutos,
-            tamanoLote: $model->tamano_lote !== null ? (float) $model->tamano_lote : null,
         );
     }
 }

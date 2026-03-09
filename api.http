@@ -60,9 +60,6 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/departamentos/1/grupos-recursos
 Authorization: Bearer {{token}}
 
-### Listar recursos compartidos de un departamento
-GET {{baseUrl}}/departamentos/1/recursos-compartidos
-Authorization: Bearer {{token}}
 
 # ============================================================
 # GRUPOS DE RECURSOS
@@ -97,8 +94,35 @@ Content-Type: application/json
 DELETE {{baseUrl}}/grupos-recursos/1
 Authorization: Bearer {{token}}
 
-### Listar recursos de un grupo
+# ============================================================
+# RECURSOS EN UN GRUPO (flujo centrado en grupo)
+# ============================================================
+
+### Listar recursos asignados al grupo (con porcentaje y CCR)
 GET {{baseUrl}}/grupos-recursos/1/recursos
+Authorization: Bearer {{token}}
+
+### Asignar recurso al grupo
+POST {{baseUrl}}/grupos-recursos/1/recursos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "recurso_id": 2,
+  "porcentaje": 60
+}
+
+### Actualizar porcentaje de un recurso en el grupo
+PUT {{baseUrl}}/grupos-recursos/1/recursos/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "porcentaje": 40
+}
+
+### Quitar recurso del grupo
+DELETE {{baseUrl}}/grupos-recursos/1/recursos/2
 Authorization: Bearer {{token}}
 
 ### Listar actividades de un grupo
@@ -106,8 +130,12 @@ GET {{baseUrl}}/grupos-recursos/1/actividades
 Authorization: Bearer {{token}}
 
 # ============================================================
-# RECURSOS
+# RECURSOS (catálogo global)
 # ============================================================
+
+### Listar todos los recursos (picker para asignar a grupos)
+GET {{baseUrl}}/recursos
+Authorization: Bearer {{token}}
 
 ### Crear recurso
 POST {{baseUrl}}/recursos
@@ -115,7 +143,6 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "grupo_recursos_id": 1,
   "nombre": "Operario A",
   "tipo": "humano",
   "costo_mensual": 1500000
@@ -137,42 +164,15 @@ DELETE {{baseUrl}}/recursos/1
 Authorization: Bearer {{token}}
 
 # ============================================================
-# RECURSOS COMPARTIDOS
+# ASIGNACIONES RECURSO → GRUPOS (flujo centrado en recurso)
 # ============================================================
 
-### Crear recurso compartido
-POST {{baseUrl}}/recursos-compartidos
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "departamento_id": 1,
-  "nombre": "Electricidad",
-  "tipo": "servicio",
-  "costo_mensual": 500000
-}
-
-### Actualizar recurso compartido
-PUT {{baseUrl}}/recursos-compartidos/1
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "nombre": "Electricidad Actualizado",
-  "tipo": "servicio",
-  "costo_mensual": 600000
-}
-
-### Eliminar recurso compartido
-DELETE {{baseUrl}}/recursos-compartidos/1
+### Ver en qué grupos está asignado un recurso
+GET {{baseUrl}}/recursos/1/asignaciones
 Authorization: Bearer {{token}}
 
-### Listar asignaciones de un recurso compartido
-GET {{baseUrl}}/recursos-compartidos/1/asignaciones
-Authorization: Bearer {{token}}
-
-### Sincronizar asignaciones de un recurso compartido
-PUT {{baseUrl}}/recursos-compartidos/1/asignaciones
+### Reemplazar todas las asignaciones de un recurso (suma porcentajes ≤ 100%)
+PUT {{baseUrl}}/recursos/1/asignaciones
 Authorization: Bearer {{token}}
 Content-Type: application/json
 

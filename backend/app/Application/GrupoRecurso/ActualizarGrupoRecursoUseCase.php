@@ -28,10 +28,10 @@ class ActualizarGrupoRecursoUseCase
             tasaCostoPorMinuto: $existente->tasaCostoPorMinuto,
         );
 
-        $guardado = $this->repository->save($grupo);
+        $actualizado = $this->repository->save($grupo);
 
         // La capacidad puede haber cambiado: recalcular CCR
-        $actualizado = $this->repository->recalcularCcr($guardado->id);
+       // $actualizado = $this->repository->recalcularCcr($guardado->id);
 
         return new GrupoRecursoResultDto(
             id: $actualizado->id,

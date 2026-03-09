@@ -11,7 +11,6 @@ use App\Application\ActividadInductorTiempo\ListarInductoresActividadUseCase;
 use App\Domain\Actividad\Exceptions\ActividadNoEncontradaException;
 use App\Domain\ActividadInductorTiempo\Exceptions\AsociacionNoEncontradaException;
 use App\Domain\ActividadInductorTiempo\Exceptions\InductorYaAsociadoException;
-use App\Domain\ActividadInductorTiempo\Exceptions\TamanoLoteRequeridoException;
 use App\Domain\InductorTiempo\Exceptions\InductorTiempoNoEncontradoException;
 use App\Interfaces\Requests\ActividadInductorTiempo\StoreActividadInductorRequest;
 use App\Interfaces\Requests\ActividadInductorTiempo\UpdateActividadInductorRequest;
@@ -45,16 +44,12 @@ class ActividadInductorTiempoController extends Controller
             $dto = $this->asociar->ejecutar(new AsociarInductorDto(
                 actividadId: $actividadId,
                 inductorTiempoId: $request->validated('inductor_tiempo_id'),
-                betaMinutos: $request->validated('beta_minutos'),
-                tamanoLote: $request->validated('tamano_lote'),
             ));
             return (new ActividadInductorTiempoResource($dto))->toResponse(201);
         } catch (ActividadNoEncontradaException | InductorTiempoNoEncontradoException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         } catch (InductorYaAsociadoException $e) {
             return response()->json(['message' => $e->getMessage()], 409);
-        } catch (TamanoLoteRequeridoException $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
         }
     }
 
@@ -64,14 +59,10 @@ class ActividadInductorTiempoController extends Controller
             $dto = $this->actualizar->ejecutar(new ActualizarInductorActividadDto(
                 actividadId: $actividadId,
                 inductorTiempoId: $inductorId,
-                betaMinutos: $request->validated('beta_minutos'),
-                tamanoLote: $request->validated('tamano_lote'),
             ));
             return (new ActividadInductorTiempoResource($dto))->toResponse();
-        } catch (AsociacionNoEncontradaException | InductorTiempoNoEncontradoException $e) {
+        } catch (AsociacionNoEncontradaException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
-        } catch (TamanoLoteRequeridoException $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
         }
     }
 

@@ -155,35 +155,49 @@ const menuGroups = [
     ],
   },
   {
-    title: 'Módulos',
+    title: 'CONFIGURACION COSTOS',
     items: [
       {
         icon: SettingsIcon,
-        name: 'Configuración',
+        name: 'Empresa',
         subItems: [
-          { name: 'Empresa',        path: '/empresa' },
-          { name: 'Departamentos',  path: '/departamentos' },
-          { name: 'Actividades',    path: '/actividades' },
+          { name: 'Departamentos', path: '/departamentos' },
+          { name: 'Recursos Productivos', path: '/recursos' },
+          { name: 'Inductores de Tiempo',    path: '/inductores-recursos' },
+          { name: 'Centros de Costo', path: '/centros-costo' },
         ],
       },
-      {
+     /*  {
         icon: BoxIcon,
         name: 'Recursos',
         subItems: [
-          { name: 'Centros de Costo',     path: '/centros-costo' },
-          { name: 'Recursos Productivos', path: '/recursos' },
+        
+          { name: 'Actividades',          path: '/actividades' },
+        ],
+      }, */
+    /*   {
+        icon: ChartBarIcon,
+        name: 'Inductores',
+        subItems: [
+          
+          { name: 'Inductores de Actividades', path: '/inductores-actividades' },
+        ],
+      }, */
+    ],
+  },
+  {
+    title: 'Comercial',
+    items: [
+      {
+        icon: CalculatorIcon,
+        name: 'Productos',
+        subItems: [
+          { name: 'Catálogo',     path: '/productos' },
+          { name: 'Cotizaciones', path: '/cotizaciones' },
         ],
       },
       {
         icon: ChartBarIcon,
-        name: 'Inductores',
-        subItems: [
-          { name: 'Inductores de Recursos',    path: '/inductores-recursos' },
-          { name: 'Inductores de Actividades', path: '/inductores-actividades' },
-        ],
-      },
-      {
-        icon: CalculatorIcon,
         name: 'Costos ABC',
         subItems: [
           { name: 'Asignación', path: '/asignacion' },

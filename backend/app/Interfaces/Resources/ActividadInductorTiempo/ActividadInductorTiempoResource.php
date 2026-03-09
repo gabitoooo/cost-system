@@ -12,11 +12,9 @@ class ActividadInductorTiempoResource
     public function toArray(): array
     {
         return [
-            'id'                => $this->dto->id,
-            'actividad_id'      => $this->dto->actividadId,
+            'id'                 => $this->dto->id,
+            'actividad_id'       => $this->dto->actividadId,
             'inductor_tiempo_id' => $this->dto->inductorTiempoId,
-            'beta_minutos'      => $this->dto->betaMinutos,
-            'tamano_lote'       => $this->dto->tamanoLote,
         ];
     }
 

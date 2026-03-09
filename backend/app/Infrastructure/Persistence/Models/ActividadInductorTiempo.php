@@ -12,17 +12,7 @@ class ActividadInductorTiempo extends Model
     protected $fillable = [
         'actividad_id',
         'inductor_tiempo_id',
-        'beta_minutos',
-        'tamano_lote',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'beta_minutos' => 'decimal:4',
-            'tamano_lote'  => 'decimal:2',
-        ];
-    }
 
     public function actividad(): BelongsTo
     {

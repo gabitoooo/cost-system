@@ -8,7 +8,6 @@ use App\Application\Recurso\Dtos\ActualizarRecursoDto;
 use App\Application\Recurso\Dtos\CrearRecursoDto;
 use App\Application\Recurso\EliminarRecursoUseCase;
 use App\Application\Recurso\ListarRecursosUseCase;
-use App\Domain\GrupoRecurso\Exceptions\GrupoRecursoNoEncontradoException;
 use App\Domain\Recurso\Exceptions\RecursoNoEncontradoException;
 use App\Interfaces\Requests\Recurso\StoreRecursoRequest;
 use App\Interfaces\Requests\Recurso\UpdateRecursoRequest;
@@ -24,31 +23,23 @@ class RecursoController extends Controller
         private readonly EliminarRecursoUseCase   $eliminar,
     ) {}
 
-    public function index(int $grupoRecursoId): JsonResponse
+    // GET /recursos — lista todos los recursos (para el picker de asignación)
+    public function index(): JsonResponse
     {
-        try {
-            $items = $this->listar->ejecutar($grupoRecursoId);
-            return response()->json([
-                'data' => array_map(fn($r) => (new RecursoResource($r))->toArray(), $items),
-            ]);
-        } catch (GrupoRecursoNoEncontradoException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
+        $items = $this->listar->ejecutar();
+        return response()->json([
+            'data' => array_map(fn($r) => (new RecursoResource($r))->toArray(), $items),
+        ]);
     }
 
     public function store(StoreRecursoRequest $request): JsonResponse
     {
-        try {
-            $dto = $this->crear->ejecutar(new CrearRecursoDto(
-                grupoRecursosId: $request->validated('grupo_recursos_id'),
-                nombre: $request->validated('nombre'),
-                tipo: $request->validated('tipo'),
-                costoMensual: $request->validated('costo_mensual'),
-            ));
-            return (new RecursoResource($dto))->toResponse(201);
-        } catch (GrupoRecursoNoEncontradoException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
+        $dto = $this->crear->ejecutar(new CrearRecursoDto(
+            nombre: $request->validated('nombre'),
+            tipo: $request->validated('tipo'),
+            costoMensual: $request->validated('costo_mensual'),
+        ));
+        return (new RecursoResource($dto))->toResponse(201);
     }
 
     public function update(UpdateRecursoRequest $request, int $id): JsonResponse

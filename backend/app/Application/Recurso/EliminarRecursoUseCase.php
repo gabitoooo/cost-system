@@ -17,12 +17,9 @@ class EliminarRecursoUseCase
     public function ejecutar(int $id): void
     {
         $existente = $this->repository->findById($id)
-            ?? throw new RecursoNoEncontradoException($id);
-
-        $grupoId = $existente->grupoRecursosId;
+            ?? throw new RecursoNoEncontradoException($id);      
 
         $this->repository->delete($id);
-
-        $this->grupoRepository->recalcularCcr($grupoId);
+        
     }
 }

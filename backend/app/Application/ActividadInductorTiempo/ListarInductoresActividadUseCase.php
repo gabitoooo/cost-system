@@ -28,8 +28,6 @@ class ListarInductoresActividadUseCase
                 id: $a->id,
                 actividadId: $a->actividadId,
                 inductorTiempoId: $a->inductorTiempoId,
-                betaMinutos: $a->betaMinutos,
-                tamanoLote: $a->tamanoLote,
             ),
             $this->repository->findByActividad($actividadId),
         );

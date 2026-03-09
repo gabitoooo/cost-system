@@ -23,8 +23,7 @@ class ActualizarRecursoUseCase
             ?? throw new RecursoNoEncontradoException($dto->id);
 
         $recurso = new Recurso(
-            id: $dto->id,
-            grupoRecursosId: $existente->grupoRecursosId,
+            id: $dto->id,          
             nombre: $dto->nombre,
             tipo: $dto->tipo,
             costoMensual: $dto->costoMensual,
@@ -32,11 +31,10 @@ class ActualizarRecursoUseCase
 
         $guardado = $this->repository->save($recurso);
 
-        $this->grupoRepository->recalcularCcr($existente->grupoRecursosId);
+        //$this->grupoRepository->recalcularCcr($existente->grupoRecursosId);
 
         return new RecursoResultDto(
-            id: $guardado->id,
-            grupoRecursosId: $guardado->grupoRecursosId,
+            id: $guardado->id,          
             nombre: $guardado->nombre,
             tipo: $guardado->tipo,
             costoMensual: $guardado->costoMensual,

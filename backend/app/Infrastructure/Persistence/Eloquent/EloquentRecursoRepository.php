@@ -11,13 +11,12 @@ class EloquentRecursoRepository implements RecursoRepository
     public function findById(int $id): ?Recurso
     {
         $model = RecursoModel::find($id);
-
         return $model ? $this->toEntity($model) : null;
     }
 
-    public function findByGrupo(int $grupoRecursosId): array
+    public function findAll(): array
     {
-        return RecursoModel::where('grupo_recursos_id', $grupoRecursosId)
+        return RecursoModel::orderBy('nombre')
             ->get()
             ->map(fn($m) => $this->toEntity($m))
             ->all();
@@ -28,11 +27,9 @@ class EloquentRecursoRepository implements RecursoRepository
         $model = $recurso->id === 0
             ? new RecursoModel()
             : RecursoModel::findOrFail($recurso->id);
-
-        $model->grupo_recursos_id = $recurso->grupoRecursosId;
-        $model->nombre            = $recurso->nombre;
-        $model->tipo              = $recurso->tipo;
-        $model->costo_mensual     = $recurso->costoMensual;
+        $model->nombre        = $recurso->nombre;
+        $model->tipo          = $recurso->tipo;
+        $model->costo_mensual = $recurso->costoMensual;
         $model->save();
 
         return $this->toEntity($model);
@@ -43,16 +40,10 @@ class EloquentRecursoRepository implements RecursoRepository
         RecursoModel::findOrFail($id)->delete();
     }
 
-    public function sumCostoByGrupo(int $grupoId): float
-    {
-        return (float) RecursoModel::where('grupo_recursos_id', $grupoId)->sum('costo_mensual');
-    }
-
     private function toEntity(RecursoModel $model): Recurso
     {
         return new Recurso(
             id: $model->id,
-            grupoRecursosId: $model->grupo_recursos_id,
             nombre: $model->nombre,
             tipo: $model->tipo,
             costoMensual: (float) $model->costo_mensual,

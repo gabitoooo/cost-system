@@ -6,11 +6,10 @@ interface RecursoRepository
 {
     public function findById(int $id): ?Recurso;
 
-    public function findByGrupo(int $grupoRecursosId): array;
+    /** @return Recurso[] */
+    public function findAll(): array;
 
     public function save(Recurso $recurso): Recurso;
 
     public function delete(int $id): void;
-
-    public function sumCostoByGrupo(int $grupoId): float;
 }

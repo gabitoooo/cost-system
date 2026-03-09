@@ -12,11 +12,10 @@ class RecursoResource
     public function toArray(): array
     {
         return [
-            'id'               => $this->dto->id,
-            'grupo_recursos_id' => $this->dto->grupoRecursosId,
-            'nombre'           => $this->dto->nombre,
-            'tipo'             => $this->dto->tipo,
-            'costo_mensual'    => $this->dto->costoMensual,
+            'id'            => $this->dto->id,
+            'nombre'        => $this->dto->nombre,
+            'tipo'          => $this->dto->tipo,
+            'costo_mensual' => $this->dto->costoMensual,
         ];
     }
 

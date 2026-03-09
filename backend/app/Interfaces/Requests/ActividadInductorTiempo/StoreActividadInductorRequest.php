@@ -10,8 +10,6 @@ class StoreActividadInductorRequest extends FormRequest
     {
         return [
             'inductor_tiempo_id' => ['required', 'integer'],
-            'beta_minutos'       => ['required', 'numeric', 'min:0'],
-            'tamano_lote'        => ['nullable', 'numeric', 'min:0.01'],
         ];
     }
 }

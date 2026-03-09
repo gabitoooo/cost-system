@@ -29,10 +29,10 @@ class AuthController extends Controller
 
             $result = $this->autenticarUsuario->ejecutar($dto);
 
-            return response()->json([
+            return response()->json(['data' =>[
                 'token' => $result->token,
                 'user'  => new UsuarioResource($result->usuario),
-            ]);
+            ]]);
         } catch (CredencialesInvalidasException $e) {
             return response()->json(['message' => $e->getMessage()], 401);
         }
@@ -50,14 +50,13 @@ class AuthController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-
-        return response()->json([
+        return response()->json(['data' => [
             'user' => [
                 'id'    => $user->id,
                 'name'  => $user->name,
                 'email' => $user->email,
                 'roles' => $user->getRoleNames()->toArray(),
             ],
-        ]);
+        ]]);
     }
 }

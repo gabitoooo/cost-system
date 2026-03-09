@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8000/api
-@token = 2|tSKlDBNKSZNcnsCiuZnVN3f0v3AKwUmu8FuWkQ2D1cc32866
+@token = 5|op960THx6xwpO6t1zW8i7KKBlhkpYFWk3bQZLbQp78e32537
 
 # ============================================================
 # AUTH
@@ -259,10 +259,10 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nombre": "Número de pedidos",
-  "descripcion": "Cantidad de pedidos procesados en el período",
-  "tipo_calculo": "conteo"
-}
+  "nombre": "Número de piezas",
+  "descripcion": "Cantidad de piezas",
+  "tipo_calculo": "MANUAL" 
+} 
 
 ### Mostrar inductor de tiempo
 GET {{baseUrl}}/inductores-tiempo/1

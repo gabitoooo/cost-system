@@ -1,9 +1,3 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-
+// Tailwind CSS v4 — la configuración ahora vive en src/assets/styles/main.css
+// Este archivo ya no es usado. Consulta main.css para modificar el tema.
+export default {}

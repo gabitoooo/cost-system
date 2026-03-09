@@ -15,7 +15,7 @@ set_env() {
     fi
 }
 
-set_env "API_BASE_URL" "${API_BASE_URL}"
+set_env "VITE_API_URL" "${VITE_API_URL}"
 
 # Instalar dependencias si no existen
 if [ ! -f "node_modules/.bin/vite" ]; then

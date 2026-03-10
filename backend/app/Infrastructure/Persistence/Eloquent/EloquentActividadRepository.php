@@ -8,6 +8,13 @@ use App\Infrastructure\Persistence\Models\Actividad as ActividadModel;
 
 class EloquentActividadRepository implements ActividadRepository
 {
+    public function findAll(): array
+    {
+        return ActividadModel::all()
+            ->map(fn($m) => $this->toEntity($m))
+            ->all();
+    }
+
     public function findById(int $id): ?Actividad
     {
         $model = ActividadModel::find($id);

@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="mb-6 flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Productos</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Categorías de Producto</h1>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Catálogo de productos con su costo de material directo.
+          Organiza los productos por categorías para facilitar su gestión.
         </p>
       </div>
       <button
@@ -15,32 +15,21 @@
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
-        Nuevo Producto
+        Nueva Categoría
       </button>
     </div>
 
-    <!-- Filtros -->
-    <div class="mb-4 flex items-center gap-3">
-      <div class="relative flex-1 max-w-xs">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input
-          v-model="search"
-          type="text"
-          placeholder="Buscar producto..."
-          class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-9 pr-4 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
-        />
-      </div>
-      <select
-        v-model="filterCategoria"
-        class="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 outline-none focus:border-brand-500"
-      >
-        <option value="">Todas las categorías</option>
-        <option v-for="cat in categoriasStore.categorias" :key="cat.id" :value="cat.id">
-          {{ cat.nombre }}
-        </option>
-      </select>
+    <!-- Búsqueda -->
+    <div class="mb-4 relative max-w-xs">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        v-model="search"
+        type="text"
+        placeholder="Buscar categoría..."
+        class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-9 pr-4 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+      />
     </div>
 
     <!-- Tabla -->
@@ -49,35 +38,31 @@
         <thead>
           <tr class="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
             <th class="px-4 py-3 text-left font-semibold text-gray-600 dark:text-gray-300">Nombre</th>
-            <th class="px-4 py-3 text-left font-semibold text-gray-600 dark:text-gray-300">Categoría</th>
             <th class="px-4 py-3 text-left font-semibold text-gray-600 dark:text-gray-300">Descripción</th>
-            <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300">Costo Material</th>
             <th class="px-4 py-3 text-center font-semibold text-gray-600 dark:text-gray-300">Acciones</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700/50">
           <!-- Skeletons -->
           <template v-if="loadingList">
-            <tr v-for="n in 4" :key="n" class="bg-white dark:bg-gray-800">
+            <tr v-for="n in 3" :key="n" class="bg-white dark:bg-gray-800">
               <td class="px-4 py-3"><div class="h-4 w-40 animate-pulse rounded bg-gray-100 dark:bg-gray-700" /></td>
-              <td class="px-4 py-3"><div class="h-5 w-24 animate-pulse rounded-full bg-gray-100 dark:bg-gray-700" /></td>
-              <td class="px-4 py-3"><div class="h-4 w-48 animate-pulse rounded bg-gray-100 dark:bg-gray-700" /></td>
-              <td class="px-4 py-3"><div class="ml-auto h-4 w-20 animate-pulse rounded bg-gray-100 dark:bg-gray-700" /></td>
-              <td class="px-4 py-3"><div class="mx-auto h-4 w-20 animate-pulse rounded bg-gray-100 dark:bg-gray-700" /></td>
+              <td class="px-4 py-3"><div class="h-4 w-64 animate-pulse rounded bg-gray-100 dark:bg-gray-700" /></td>
+              <td class="px-4 py-3"><div class="mx-auto h-4 w-16 animate-pulse rounded bg-gray-100 dark:bg-gray-700" /></td>
             </tr>
           </template>
 
           <!-- Vacío -->
-          <tr v-else-if="productosFiltrados.length === 0">
-            <td colspan="5" class="px-4 py-16 text-center">
+          <tr v-else-if="categoriasFiltradas.length === 0">
+            <td colspan="3" class="px-4 py-16 text-center">
               <svg class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
               </svg>
               <p class="mt-3 text-sm font-medium text-gray-400 dark:text-gray-500">
-                {{ search || filterCategoria ? 'Sin resultados' : 'No hay productos registrados' }}
+                {{ search ? 'Sin resultados para la búsqueda' : 'No hay categorías registradas' }}
               </p>
               <p class="mt-1 text-xs text-gray-400 dark:text-gray-600">
-                {{ search || filterCategoria ? 'Prueba con otros filtros.' : 'Agrega el primer producto al catálogo.' }}
+                {{ search ? 'Prueba con otro nombre.' : 'Crea la primera categoría de producto.' }}
               </p>
             </td>
           </tr>
@@ -85,47 +70,16 @@
           <!-- Filas -->
           <tr
             v-else
-            v-for="prod in productosFiltrados"
-            :key="prod.id"
+            v-for="cat in categoriasFiltradas"
+            :key="cat.id"
             class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors"
           >
-            <td class="px-4 py-3">
-              <router-link
-                :to="`/productos/${prod.id}`"
-                class="font-medium text-brand-500 hover:text-brand-600 hover:underline"
-              >
-                {{ prod.nombre }}
-              </router-link>
-            </td>
-            <td class="px-4 py-3">
-              <span
-                v-if="categoriaMap[prod.categoria_id ?? 0]"
-                class="rounded-full bg-blue-50 dark:bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-400"
-              >
-                {{ categoriaMap[prod.categoria_id ?? 0] }}
-              </span>
-              <span v-else class="text-gray-400 dark:text-gray-500">—</span>
-            </td>
-            <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ prod.descripcion ?? '—' }}</td>
-            <td class="px-4 py-3 text-right">
-              <span class="font-semibold text-gray-900 dark:text-white">
-                ${{ prod.costo_material_directo.toFixed(2) }}
-              </span>
-            </td>
+            <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">{{ cat.nombre }}</td>
+            <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ cat.descripcion ?? '—' }}</td>
             <td class="px-4 py-3">
               <div class="flex items-center justify-center gap-1">
-                <router-link
-                  :to="`/productos/${prod.id}`"
-                  class="rounded-lg p-1.5 text-gray-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 hover:text-brand-500 transition-colors"
-                  title="Ver detalle / Configurar"
-                >
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </router-link>
                 <button
-                  @click="openEditModal(prod)"
+                  @click="openEditModal(cat)"
                   class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                   title="Editar"
                 >
@@ -134,7 +88,7 @@
                   </svg>
                 </button>
                 <button
-                  @click="handleDelete(prod)"
+                  @click="handleDelete(cat)"
                   class="rounded-lg p-1.5 text-gray-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-500 transition-colors"
                   title="Eliminar"
                 >
@@ -149,7 +103,7 @@
       </table>
     </div>
 
-    <!-- ─── Modal crear / editar ─── -->
+    <!-- Modal crear/editar -->
     <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100" leave-to-class="opacity-0">
       <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeModal" />
@@ -157,47 +111,36 @@
           <div v-if="showModal" class="relative z-10 w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 shadow-2xl">
             <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 px-6 py-5">
               <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                {{ editingId ? 'Editar Producto' : 'Nuevo Producto' }}
+                {{ editingId ? 'Editar Categoría' : 'Nueva Categoría' }}
               </h2>
               <button @click="closeModal" class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 transition-colors">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
             <div class="space-y-4 px-6 py-6">
-              <!-- Nombre -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Nombre</label>
-                <input v-model="form.nombre" type="text" placeholder="Ej: Camiseta sublimada..." :class="inputClass('nombre')" />
+                <input
+                  v-model="form.nombre"
+                  type="text"
+                  placeholder="Ej: Textiles, Electrónica, Alimentos..."
+                  :class="inputClass('nombre')"
+                  @keydown.enter="handleSubmit"
+                />
                 <p v-if="getFieldError(apiState.validationErrors.value, 'nombre')" class="mt-1.5 text-xs text-red-500">
                   {{ getFieldError(apiState.validationErrors.value, 'nombre') }}
                 </p>
               </div>
-              <!-- Descripción -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                   Descripción <span class="text-gray-400 font-normal">(opcional)</span>
                 </label>
-                <input v-model="form.descripcion" type="text" placeholder="Descripción breve del producto..." :class="inputClass('descripcion')" />
-              </div>
-              <!-- Costo material directo -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Costo de Material Directo ($)</label>
-                <input v-model.number="form.costo_material_directo" type="number" step="0.01" min="0" placeholder="0.00" :class="inputClass('costo_material_directo')" />
-                <p v-if="getFieldError(apiState.validationErrors.value, 'costo_material_directo')" class="mt-1.5 text-xs text-red-500">
-                  {{ getFieldError(apiState.validationErrors.value, 'costo_material_directo') }}
-                </p>
-              </div>
-              <!-- Categoría -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Categoría <span class="text-gray-400 font-normal">(opcional)</span>
-                </label>
-                <select v-model="form.categoria_id" :class="inputClass('categoria_id')">
-                  <option :value="null">Sin categoría</option>
-                  <option v-for="cat in categoriasStore.categorias" :key="cat.id" :value="cat.id">
-                    {{ cat.nombre }}
-                  </option>
-                </select>
+                <input
+                  v-model="form.descripcion"
+                  type="text"
+                  placeholder="Describe brevemente esta categoría..."
+                  :class="inputClass('descripcion')"
+                />
               </div>
             </div>
             <div class="flex items-center justify-end gap-3 border-t border-gray-100 dark:border-gray-800 px-6 py-4">
@@ -213,7 +156,7 @@
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
-                {{ apiState.loading.value ? 'Guardando...' : (editingId ? 'Guardar cambios' : 'Crear producto') }}
+                {{ apiState.loading.value ? 'Guardando...' : (editingId ? 'Guardar cambios' : 'Crear categoría') }}
               </button>
             </div>
           </div>
@@ -226,50 +169,29 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import Swal from 'sweetalert2'
-import { useProductosStore } from '../store/productosStore'
-import { useCategoriasProductoStore } from '@/modules/categorias-producto/store/categoriaProductoStore'
+import { useCategoriasProductoStore } from '../store/categoriaProductoStore'
 import { useApi } from '@/composables/useApi'
 import { getFieldError } from '@/app/api/types'
-import type { Producto } from '../types'
+import type { CategoriaProducto } from '../types'
 
-const store = useProductosStore()
-const categoriasStore = useCategoriasProductoStore()
+const store = useCategoriasProductoStore()
 const apiState = useApi()
 
 const loadingList = ref(false)
 const showModal = ref(false)
 const editingId = ref<number | null>(null)
 const search = ref('')
-const filterCategoria = ref<number | ''>('')
+const form = ref({ nombre: '', descripcion: '' })
 
-const form = ref({
-  nombre: '',
-  descripcion: '',
-  costo_material_directo: 0,
-  categoria_id: null as number | null,
-})
-
-const categoriaMap = computed(() => {
-  const map: Record<number, string> = {}
-  for (const cat of categoriasStore.categorias) map[cat.id] = cat.nombre
-  return map
-})
-
-const productosFiltrados = computed(() => {
-  let list = store.productos
-  if (search.value) {
-    const q = search.value.toLowerCase()
-    list = list.filter((p) => p.nombre.toLowerCase().includes(q))
-  }
-  if (filterCategoria.value !== '') {
-    list = list.filter((p) => p.categoria_id === filterCategoria.value)
-  }
-  return list
+const categoriasFiltradas = computed(() => {
+  if (!search.value) return store.categorias
+  const q = search.value.toLowerCase()
+  return store.categorias.filter((c) => c.nombre.toLowerCase().includes(q))
 })
 
 onMounted(async () => {
   loadingList.value = true
-  await Promise.all([store.fetchAll(), categoriasStore.fetchAll()])
+  await store.fetchAll()
   loadingList.value = false
 })
 
@@ -285,18 +207,13 @@ function inputClass(field: string) {
 
 function openCreateModal() {
   editingId.value = null
-  form.value = { nombre: '', descripcion: '', costo_material_directo: 0, categoria_id: null }
+  form.value = { nombre: '', descripcion: '' }
   showModal.value = true
 }
 
-function openEditModal(prod: Producto) {
-  editingId.value = prod.id
-  form.value = {
-    nombre: prod.nombre,
-    descripcion: prod.descripcion ?? '',
-    costo_material_directo: prod.costo_material_directo,
-    categoria_id: prod.categoria_id,
-  }
+function openEditModal(cat: CategoriaProducto) {
+  editingId.value = cat.id
+  form.value = { nombre: cat.nombre, descripcion: cat.descripcion ?? '' }
   showModal.value = true
 }
 
@@ -308,8 +225,6 @@ async function handleSubmit() {
   const dto = {
     nombre: form.value.nombre,
     descripcion: form.value.descripcion || undefined,
-    costo_material_directo: form.value.costo_material_directo,
-    categoria_id: form.value.categoria_id ?? undefined,
   }
   const result = editingId.value !== null
     ? await apiState.execute(() => store.update(editingId.value!, dto))
@@ -317,10 +232,10 @@ async function handleSubmit() {
   if (result !== null) closeModal()
 }
 
-async function handleDelete(prod: Producto) {
+async function handleDelete(cat: CategoriaProducto) {
   const { isConfirmed } = await Swal.fire({
-    title: '¿Eliminar producto?',
-    text: `Se eliminará "${prod.nombre}". Esta acción no se puede deshacer.`,
+    title: '¿Eliminar categoría?',
+    text: `Se eliminará "${cat.nombre}". Esta acción no se puede deshacer.`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
@@ -330,6 +245,6 @@ async function handleDelete(prod: Producto) {
     reverseButtons: true,
   })
   if (!isConfirmed) return
-  await apiState.execute(() => store.remove(prod.id))
+  await apiState.execute(() => store.remove(cat.id))
 }
 </script>

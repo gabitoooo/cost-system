@@ -27,7 +27,7 @@
               Iniciar Sesión
             </h1>
             <p class="text-sm text-gray-500 dark:text-gray-400">
-              Ingresa tus credenciales para acceder al sistema.
+              Ingresa tus credenciales para acceder al sistema de costos.
             </p>
           </div>
 
@@ -149,54 +149,7 @@
       </div>
     </div>
 
-    <!-- Panel derecho — decorativo (solo desktop) -->
-    <div class="hidden lg:flex lg:w-1/2 relative bg-brand-950 dark:bg-gray-800 items-center justify-center overflow-hidden">
-      <!-- Patrón de puntos decorativo -->
-      <div class="absolute inset-0 opacity-10" aria-hidden="true">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.5" fill="white"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#dots)"/>
-        </svg>
-      </div>
-
-      <!-- Contenido centrado -->
-      <div class="relative z-1 flex flex-col items-center text-center max-w-xs px-8">
-        <!-- Logo grande -->
-        <div class="flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 mb-6">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white"
-            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="20" x2="18" y2="10"/>
-            <line x1="12" y1="20" x2="12" y2="4"/>
-            <line x1="6"  y1="20" x2="6"  y2="14"/>
-            <line x1="2"  y1="20" x2="22" y2="20"/>
-          </svg>
-        </div>
-        <h2 class="text-2xl font-semibold text-white mb-3">Sistema de Costos</h2>
-        <p class="text-sm text-white/60 leading-relaxed">
-          Plataforma de gestión de costos para análisis y asignación de recursos empresariales.
-        </p>
-
-        <!-- Estadísticas decorativas -->
-        <div class="mt-10 grid grid-cols-3 gap-4 w-full">
-          <div class="bg-white/10 rounded-xl p-4">
-            <p class="text-xl font-bold text-white">ABC</p>
-            <p class="text-xs text-white/50 mt-1">Método</p>
-          </div>
-          <div class="bg-white/10 rounded-xl p-4">
-            <p class="text-xl font-bold text-white">TD</p>
-            <p class="text-xs text-white/50 mt-1">Time-Driven</p>
-          </div>
-          <div class="bg-white/10 rounded-xl p-4">
-            <p class="text-xl font-bold text-white">ERP</p>
-            <p class="text-xs text-white/50 mt-1">Integrado</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
   </div>
 </template>

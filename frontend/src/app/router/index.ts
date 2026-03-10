@@ -11,6 +11,7 @@ import actividadesRoutes from '@/modules/actividades/routes'
 import inductoresTiempoRoutes from '@/modules/inductores-tiempo/routes'
 import productosRoutes from '@/modules/productos/routes'
 import cotizacionesRoutes from '@/modules/cotizaciones/routes'
+import categoriasProductoRoutes from '@/modules/categorias-producto/routes'
 
 const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/login' },
@@ -23,6 +24,7 @@ const routes: RouteRecordRaw[] = [
   ...inductoresTiempoRoutes,
   ...productosRoutes,
   ...cotizacionesRoutes,
+  ...categoriasProductoRoutes,
   { path: '/:pathMatch(.*)*', redirect: '/login' },
 ]
 

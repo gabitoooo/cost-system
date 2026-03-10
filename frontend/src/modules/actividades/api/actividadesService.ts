@@ -9,6 +9,10 @@ import type {
 
 const actividadesService = {
   // ── Actividades ────────────────────────────────────────────────────────────
+  getAll(): Promise<{ data: Actividad[] }> {
+    return http.get('/actividades')
+  },
+
   getByGrupo(grupoId: number): Promise<{ data: Actividad[] }> {
     return http.get(`/grupos-recursos/${grupoId}/actividades`)
   },

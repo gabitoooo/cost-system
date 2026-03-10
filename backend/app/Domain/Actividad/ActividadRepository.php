@@ -4,6 +4,8 @@ namespace App\Domain\Actividad;
 
 interface ActividadRepository
 {
+    public function findAll(): array;
+
     public function findById(int $id): ?Actividad;
 
     public function findByGrupo(int $grupoRecursosId): array;

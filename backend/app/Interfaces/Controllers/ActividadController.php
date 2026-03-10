@@ -8,6 +8,7 @@ use App\Application\Actividad\Dtos\ActualizarActividadDto;
 use App\Application\Actividad\Dtos\CrearActividadDto;
 use App\Application\Actividad\EliminarActividadUseCase;
 use App\Application\Actividad\ListarActividadesUseCase;
+use App\Application\Actividad\ListarTodasActividadesUseCase;
 use App\Application\Actividad\MostrarActividadUseCase;
 use App\Domain\Actividad\Exceptions\ActividadNoEncontradaException;
 use App\Domain\GrupoRecurso\Exceptions\GrupoRecursoNoEncontradoException;
@@ -19,12 +20,21 @@ use Illuminate\Http\JsonResponse;
 class ActividadController extends Controller
 {
     public function __construct(
-        private readonly ListarActividadesUseCase  $listar,
-        private readonly MostrarActividadUseCase   $mostrar,
-        private readonly CrearActividadUseCase     $crear,
-        private readonly ActualizarActividadUseCase $actualizar,
-        private readonly EliminarActividadUseCase  $eliminar,
+        private readonly ListarActividadesUseCase     $listar,
+        private readonly ListarTodasActividadesUseCase $listarTodas,
+        private readonly MostrarActividadUseCase      $mostrar,
+        private readonly CrearActividadUseCase        $crear,
+        private readonly ActualizarActividadUseCase   $actualizar,
+        private readonly EliminarActividadUseCase     $eliminar,
     ) {}
+
+    public function indexAll(): JsonResponse
+    {
+        $items = $this->listarTodas->ejecutar();
+        return response()->json([
+            'data' => array_map(fn($a) => (new ActividadResource($a))->toArray(), $items),
+        ]);
+    }
 
     public function index(int $grupoRecursoId): JsonResponse
     {

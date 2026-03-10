@@ -192,18 +192,19 @@ const menuGroups = [
         icon: CalculatorIcon,
         name: 'Productos',
         subItems: [
+          { name: 'Categorías',   path: '/categorias-producto' },
           { name: 'Catálogo',     path: '/productos' },
           { name: 'Cotizaciones', path: '/cotizaciones' },
         ],
       },
-      {
+      /* {
         icon: ChartBarIcon,
         name: 'Costos ABC',
         subItems: [
           { name: 'Asignación', path: '/asignacion' },
           { name: 'Reportes',   path: '/reportes' },
         ],
-      },
+      }, */
     ],
   },
   {

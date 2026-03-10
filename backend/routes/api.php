@@ -61,7 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('recursos/{recursoId}/asignaciones', [AsignacionRecursoGrupoController::class, 'index']);
     Route::put('recursos/{recursoId}/asignaciones', [AsignacionRecursoGrupoController::class, 'sync']);
 
-    // TDABC: Actividades 
+    // TDABC: Actividades
+    Route::get('actividades', [ActividadController::class, 'indexAll']);
     Route::post('actividades', [ActividadController::class, 'store']);
     Route::get('actividades/{id}', [ActividadController::class, 'show']);
     Route::put('actividades/{id}', [ActividadController::class, 'update']);

@@ -4,6 +4,7 @@ namespace App\Interfaces\Controllers;
 
 use App\Application\ActividadInductorTiempo\ActualizarInductorActividadUseCase;
 use App\Application\ActividadInductorTiempo\AsociarInductorUseCase;
+use App\Application\ActividadInductorTiempo\Dtos\ActividadInductoTiempoViewDtop;
 use App\Application\ActividadInductorTiempo\Dtos\ActualizarInductorActividadDto;
 use App\Application\ActividadInductorTiempo\Dtos\AsociarInductorDto;
 use App\Application\ActividadInductorTiempo\EliminarInductorActividadUseCase;
@@ -31,7 +32,7 @@ class ActividadInductorTiempoController extends Controller
         try {
             $items = $this->listar->ejecutar($actividadId);
             return response()->json([
-                'data' => array_map(fn($a) => (new ActividadInductorTiempoResource($a))->toArray(), $items),
+                'data' => array_map(fn(ActividadInductoTiempoViewDtop  $a) => $a->toArray(), $items),
             ]);
         } catch (ActividadNoEncontradaException $e) {
             return response()->json(['message' => $e->getMessage()], 404);

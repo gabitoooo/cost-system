@@ -60,7 +60,7 @@
                  hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           :title="isDarkMode ? 'Modo claro' : 'Modo oscuro'"
         >
-          <component :is="isDarkMode ? SunIcon : MoonIcon" />
+          <component :is="isDarkMode ? SunIcon : MoonIcon" class="h-5 w-5" />
         </button>
 
         <!-- Separador -->
@@ -129,11 +129,11 @@
 
 <script setup lang="ts">
 import { ref, computed, inject, onMounted, onUnmounted } from 'vue'
+import { SunIcon, MoonIcon, LogoutIcon } from '@/components/icons'
 import type { Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSidebar } from '@/composables/useSidebar'
 import { useAuthStore } from '@/modules/auth/store/authStore'
-import { MoonIcon, SunIcon, LogoutIcon } from '@/components/icons'
 
 const { toggleSidebar, toggleMobileSidebar, isMobileOpen } = useSidebar()
 

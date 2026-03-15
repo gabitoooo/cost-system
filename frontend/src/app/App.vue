@@ -19,7 +19,6 @@ import { useRoute } from 'vue-router'
 import ThemeProvider from '@/components/layout/ThemeProvider.vue'
 import SidebarProvider from '@/components/layout/SidebarProvider.vue'
 import ToastProvider from '@/components/layout/ToastProvider.vue'
-import AppToast from '@/components/ui/AppToast.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 

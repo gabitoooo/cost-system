@@ -1,6 +1,27 @@
 @import 'tailwindcss';
 
 /* =====================================================================
+   REFERENCIA RÁPIDA DE UTILIDADES CUSTOM (@utility)
+   ─────────────────────────────────────────────────
+   TEXTO
+     text-default  → texto principal     (gray-900 / white)
+     text-soft     → texto secundario    (gray-500 / gray-400)
+     text-body     → texto cuerpo/labels (gray-700 / gray-300)
+
+   FORMULARIOS
+     form-label    → <label> de campo    (sm, medium, gray-700, mb-1.5)
+     field-error   → mensaje de error    (xs, red-500, mt-1.5)
+
+   BOTONES  →  class="btn-base btn-{variante} btn-{tamaño}"
+     Base:       btn-base
+     Tamaños:    btn-md | btn-sm | btn-xs
+     Variantes:  btn-primary | btn-ghost
+     Extras:     btn-icon  (botón ícono ghost neutro — p-1.5)
+
+   SIDEBAR (menu items) — ver sección SIDEBAR MENU más abajo.
+   ===================================================================== */
+
+/* =====================================================================
    MODO OSCURO — se activa con la clase .dark en el elemento <html>
    ===================================================================== */
 @custom-variant dark (&:is(.dark *));
@@ -164,6 +185,68 @@
 @utility menu-dropdown-item-inactive {
   @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
 }
+
+/* =====================================================================
+   UTILIDADES — TEXTO
+   Colores de texto con soporte dark mode reutilizables en vistas y componentes.
+   ===================================================================== */
+
+/* Texto principal: títulos, valores, contenido importante */
+@utility text-default {
+  @apply text-gray-900 dark:text-white;
+}
+
+/* Texto secundario: descripciones, subtítulos, metadatos */
+@utility text-soft {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+/* Texto cuerpo: labels, body text, valores medios */
+@utility text-body {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+/* =====================================================================
+   UTILIDADES — FORMULARIOS
+   ===================================================================== */
+
+/* Label de campo de formulario */
+@utility form-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+}
+
+/* Mensaje de error de campo (422) */
+@utility field-error {
+  @apply mt-1.5 text-xs text-red-500;
+}
+
+/* =====================================================================
+   UTILIDADES — BOTONES
+   ===================================================================== */
+
+/* Botón ícono ghost neutro (cerrar modal, cerrar panel, etc.) */
+@utility btn-icon {
+  @apply rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-200 transition-colors;
+}
+
+/* =====================================================================
+   UTILIDADES — BOTONES CON VARIANTES (estilo Bootstrap)
+   Uso: class="btn btn-primary btn-md"
+   ===================================================================== */
+
+/* Base — layout y transición comunes */
+@utility btn-base {
+  @apply inline-flex items-center rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed;
+}
+
+/* Tamaños */
+@utility btn-md  { @apply gap-2 px-4 py-2.5 text-sm; }
+@utility btn-sm  { @apply gap-1.5 px-3 py-1.5 text-xs; }
+@utility btn-xs  { @apply gap-1 px-2.5 py-1 text-xs; }
+
+/* Variantes de color */
+@utility btn-primary { @apply bg-brand-500 text-white font-semibold hover:bg-brand-600; }
+@utility btn-ghost   { @apply font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800; }
 
 /* =====================================================================
    UTILIDADES — SCROLLBAR

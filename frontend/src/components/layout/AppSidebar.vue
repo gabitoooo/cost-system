@@ -70,7 +70,7 @@
               ]"
             >
               <span :class="isSubmenuOpen(gi, ii) ? 'menu-item-icon-active' : 'menu-item-icon-inactive'">
-                <component :is="item.icon" />
+                <component :is="item.icon" class="h-5 w-5" />
               </span>
               <span v-if="isExpanded || isHovered || isMobileOpen" class="flex-1 text-left">
                 {{ item.name }}
@@ -94,7 +94,7 @@
               ]"
             >
               <span :class="isActive(item.path) ? 'menu-item-icon-active' : 'menu-item-icon-inactive'">
-                <component :is="item.icon" />
+                <component :is="item.icon" class="h-5 w-5" />
               </span>
               <span v-if="isExpanded || isHovered || isMobileOpen">{{ item.name }}</span>
             </router-link>
